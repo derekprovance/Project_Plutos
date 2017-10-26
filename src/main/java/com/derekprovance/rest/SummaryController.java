@@ -41,27 +41,36 @@ public class SummaryController {
     public static Map<String, Map<String, String>> generateDailySpend() {
         Map<String,Map<String, String>> payload = new HashMap<>();
         Map<String, String> payloadInfo = new HashMap<>();
+
+        payloadInfo.put("period", FinanceTimePeriod.BI_WEEKLY.toString());
+        payload.put("info", payloadInfo);
+
+        payload.put("days", prepareDaySpendPayload());
+
+        return payload;
+    }
+
+    private static Map<String, String> prepareDaySpendPayload() {
         Map<String, String> payloadDay = new HashMap<>();
+
+        Long biWeeklyPocketChange = UserSingleton.getInstance().getUser().getPocketChange();
 
         final LocalDateTime today = LocalDateTime.now();
         Boolean firstHalf = today.getDayOfMonth() < 15;
 
-        //TODO - Will need general spending after all other goal deductions
+        int lowerMinimal = firstHalf ? 1 : (today.getMonth().maxLength() == 31 ? 17 : 16);
+        int upperMaximum = firstHalf ? (today.getMonth().maxLength() == 31 ? 16 : 15) : today.getMonth().maxLength();
 
-        int count = firstHalf ? 1 : 16;
+        int count = lowerMinimal;
         int baseCount = 1;
-        while(count <= today.getMonth().maxLength()) {
-            payloadDay.put(String.valueOf(count), "0");
+        while(count <= upperMaximum) {
+            Long daySpend = biWeeklyPocketChange - ((biWeeklyPocketChange / (upperMaximum - lowerMinimal + 1)) * baseCount);
+            payloadDay.put(String.valueOf(count), Formatters.convertToStringCurrency(daySpend));
 
             count++;
             baseCount++;
         }
 
-        payloadInfo.put("period", FinanceTimePeriod.BI_WEEKLY.toString());
-        payload.put("info", payloadInfo);
-
-        payload.put("days", payloadDay);
-
-        return payload;
+        return payloadDay;
     }
 }
