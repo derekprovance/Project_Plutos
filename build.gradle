@@ -1,3 +1,8 @@
+import groovy.xml.MarkupBuilder
+import org.jooq.util.GenerationTool
+
+import javax.xml.bind.JAXB
+
 buildscript {
     repositories {
         mavenLocal()
@@ -10,12 +15,14 @@ buildscript {
     }
 }
 
-
 plugins {
     id 'java'
     id 'application'
     id 'idea'
+    id "org.flywaydb.flyway" version "4.2.0"
 }
+
+apply plugin: 'java'
 
 version '1.0-SNAPSHOT'
 sourceCompatibility = 1.8
@@ -44,13 +51,19 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
 
+flyway {
+    url = 'jdbc:mysql://127.0.0.1/project_plutos?serverTimezone=UTC'
+    user = 'root'
+    password = 'ykyusdeu'
+}
+
 task wrapper(type: Wrapper) {
     gradleVersion = '4.0'
 }
 
 task generate {
     def writer = new StringWriter()
-    def xml = new groovy.xml.MarkupBuilder(writer)
+    def xml = new MarkupBuilder(writer)
             .configuration('xmlns': 'http://www.jooq.org/xsd/jooq-codegen-3.7.0.xsd') {
         jdbc() {
             driver('com.mysql.cj.jdbc.Driver')
@@ -68,26 +81,13 @@ task generate {
                 daos true
             }
             target() {
-                packageName('com.derekprovance.data.db')
+                packageName('com.derekprovance.plutos.data.db')
                 directory('src/main/java')
             }
         }
     }
 
-    org.jooq.util.GenerationTool.generate(
-            javax.xml.bind.JAXB.unmarshal(new StringReader(writer.toString()), org.jooq.util.jaxb.Configuration.class)
+    GenerationTool.generate(
+        JAXB.unmarshal(new StringReader(writer.toString()), org.jooq.util.jaxb.Configuration.class)
     )
-}
-version '1.0-SNAPSHOT'
-
-apply plugin: 'java'
-
-sourceCompatibility = 1.8
-
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
 }
