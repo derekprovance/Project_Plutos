@@ -1,4 +1,4 @@
-package com.derekprovance.plutos.rest;
+package com.derekprovance.plutos.controllers;
 
 import com.derekprovance.plutos.constants.FinanceTimePeriod;
 import com.derekprovance.plutos.data.UserSingleton;
@@ -10,15 +10,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
 @RestController
 public class SummaryController {
 
+    //TODO - Too much logic in this controller. It brings shame on you sir
     @RequestMapping("/summary")
-    public static Map<String, String> generateSummary(@RequestParam(value="payPeriod", defaultValue="BI_WEEKLY") FinanceTimePeriod payPeriod) {
+    public Map<String, String> generateSummary(@RequestParam(value="payPeriod", defaultValue="BI_WEEKLY") FinanceTimePeriod payPeriod) {
         CalculateIncomeService incomeService = new CalculateIncomeService(UserSingleton.getInstance().getUser());
         CalculateExpenseService expenseService = new CalculateExpenseService(UserSingleton.getInstance().getUser());
 

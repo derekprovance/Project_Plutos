@@ -6,6 +6,7 @@ package com.derekprovance.plutos.data.db;
 
 import com.derekprovance.plutos.data.db.tables.Expenditures;
 import com.derekprovance.plutos.data.db.tables.Incomes;
+import com.derekprovance.plutos.data.db.tables.SchemaVersion;
 import com.derekprovance.plutos.data.db.tables.Users;
 
 import javax.annotation.Generated;
@@ -33,6 +34,11 @@ public class Tables {
 	 * The table project_plutos.incomes
 	 */
 	public static final Incomes INCOMES = com.derekprovance.plutos.data.db.tables.Incomes.INCOMES;
+
+	/**
+	 * The table project_plutos.schema_version
+	 */
+	public static final SchemaVersion SCHEMA_VERSION = com.derekprovance.plutos.data.db.tables.SchemaVersion.SCHEMA_VERSION;
 
 	/**
 	 * The table project_plutos.users

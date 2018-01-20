@@ -15,7 +15,6 @@ import java.util.List;
 import javax.annotation.Generated;
 
 import org.jooq.Field;
-import org.jooq.ForeignKey;
 import org.jooq.Identity;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -36,7 +35,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Expenditures extends TableImpl<ExpendituresRecord> {
 
-	private static final long serialVersionUID = 686543184;
+	private static final long serialVersionUID = -1391029000;
 
 	/**
 	 * The reference instance of <code>project_plutos.expenditures</code>
@@ -145,14 +144,6 @@ public class Expenditures extends TableImpl<ExpendituresRecord> {
 	@Override
 	public List<UniqueKey<ExpendituresRecord>> getKeys() {
 		return Arrays.<UniqueKey<ExpendituresRecord>>asList(Keys.KEY_EXPENDITURES_PRIMARY);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public List<ForeignKey<ExpendituresRecord, ?>> getReferences() {
-		return Arrays.<ForeignKey<ExpendituresRecord, ?>>asList(Keys.EXPENDITURES_IBFK_1);
 	}
 
 	/**

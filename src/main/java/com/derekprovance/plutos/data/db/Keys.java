@@ -6,14 +6,15 @@ package com.derekprovance.plutos.data.db;
 
 import com.derekprovance.plutos.data.db.tables.Expenditures;
 import com.derekprovance.plutos.data.db.tables.Incomes;
+import com.derekprovance.plutos.data.db.tables.SchemaVersion;
 import com.derekprovance.plutos.data.db.tables.Users;
 import com.derekprovance.plutos.data.db.tables.records.ExpendituresRecord;
 import com.derekprovance.plutos.data.db.tables.records.IncomesRecord;
+import com.derekprovance.plutos.data.db.tables.records.SchemaVersionRecord;
 import com.derekprovance.plutos.data.db.tables.records.UsersRecord;
 
 import javax.annotation.Generated;
 
-import org.jooq.ForeignKey;
 import org.jooq.Identity;
 import org.jooq.UniqueKey;
 import org.jooq.impl.AbstractKeys;
@@ -47,14 +48,13 @@ public class Keys {
 
 	public static final UniqueKey<ExpendituresRecord> KEY_EXPENDITURES_PRIMARY = UniqueKeys0.KEY_EXPENDITURES_PRIMARY;
 	public static final UniqueKey<IncomesRecord> KEY_INCOMES_PRIMARY = UniqueKeys0.KEY_INCOMES_PRIMARY;
+	public static final UniqueKey<SchemaVersionRecord> KEY_SCHEMA_VERSION_PRIMARY = UniqueKeys0.KEY_SCHEMA_VERSION_PRIMARY;
 	public static final UniqueKey<UsersRecord> KEY_USERS_PRIMARY = UniqueKeys0.KEY_USERS_PRIMARY;
 
 	// -------------------------------------------------------------------------
 	// FOREIGN KEY definitions
 	// -------------------------------------------------------------------------
 
-	public static final ForeignKey<ExpendituresRecord, UsersRecord> EXPENDITURES_IBFK_1 = ForeignKeys0.EXPENDITURES_IBFK_1;
-	public static final ForeignKey<IncomesRecord, UsersRecord> INCOMES_IBFK_1 = ForeignKeys0.INCOMES_IBFK_1;
 
 	// -------------------------------------------------------------------------
 	// [#1459] distribute members to avoid static initialisers > 64kb
@@ -69,11 +69,7 @@ public class Keys {
 	private static class UniqueKeys0 extends AbstractKeys {
 		public static final UniqueKey<ExpendituresRecord> KEY_EXPENDITURES_PRIMARY = createUniqueKey(Expenditures.EXPENDITURES, Expenditures.EXPENDITURES.ID);
 		public static final UniqueKey<IncomesRecord> KEY_INCOMES_PRIMARY = createUniqueKey(Incomes.INCOMES, Incomes.INCOMES.ID);
+		public static final UniqueKey<SchemaVersionRecord> KEY_SCHEMA_VERSION_PRIMARY = createUniqueKey(SchemaVersion.SCHEMA_VERSION, SchemaVersion.SCHEMA_VERSION.INSTALLED_RANK);
 		public static final UniqueKey<UsersRecord> KEY_USERS_PRIMARY = createUniqueKey(Users.USERS, Users.USERS.ID);
-	}
-
-	private static class ForeignKeys0 extends AbstractKeys {
-		public static final ForeignKey<ExpendituresRecord, UsersRecord> EXPENDITURES_IBFK_1 = createForeignKey(com.derekprovance.plutos.data.db.Keys.KEY_USERS_PRIMARY, Expenditures.EXPENDITURES, Expenditures.EXPENDITURES.USER_ID);
-		public static final ForeignKey<IncomesRecord, UsersRecord> INCOMES_IBFK_1 = createForeignKey(com.derekprovance.plutos.data.db.Keys.KEY_USERS_PRIMARY, Incomes.INCOMES, Incomes.INCOMES.USER_ID);
 	}
 }

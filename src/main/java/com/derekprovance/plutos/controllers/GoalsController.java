@@ -1,4 +1,4 @@
-package com.derekprovance.plutos.rest;
+package com.derekprovance.plutos.controllers;
 
 import com.derekprovance.plutos.data.UserSingleton;
 import com.derekprovance.plutos.service.GoalsService;
@@ -12,7 +12,7 @@ import java.util.Map;
 public class GoalsController {
 
     @RequestMapping("/goals")
-    public static Map<String,String> goalInformation() {
+    public Map<String,String> goalInformation() {
         GoalsService goalsService = new GoalsService(UserSingleton.getInstance().getUser());
 
         Map<String,String> payload = new HashMap<>();

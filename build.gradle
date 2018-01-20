@@ -19,10 +19,12 @@ plugins {
     id 'java'
     id 'application'
     id 'idea'
-    id "org.flywaydb.flyway" version "4.2.0"
+    id 'org.flywaydb.flyway' version '4.2.0'
 }
 
 apply plugin: 'java'
+
+def SQL_DRIVER = "com.mysql.cj.jdbc.Driver"
 
 version '1.0-SNAPSHOT'
 sourceCompatibility = 1.8
@@ -45,6 +47,8 @@ dependencies {
     compile group: 'org.flywaydb', name: 'flyway-core', version: '4.2.0'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '1.5.7.RELEASE'
     compile group: 'org.springframework', name: 'spring-tx', version: '4.3.11.RELEASE'
+    compile group: 'org.springframework', name: 'spring-jdbc', version: '5.0.1.RELEASE'
+    compile group: 'com.jolbox', name: 'bonecp', version: '0.8.0.RELEASE'
     compile group: 'net.finmath', name: 'finmath-lib', version: '3.1.0'
 
     runtime group: 'mysql', name: 'mysql-connector-java', version: '6.0.6'
@@ -55,6 +59,7 @@ flyway {
     url = 'jdbc:mysql://127.0.0.1/project_plutos?serverTimezone=UTC'
     user = 'root'
     password = 'ykyusdeu'
+    driver = SQL_DRIVER
 }
 
 task wrapper(type: Wrapper) {
@@ -66,7 +71,7 @@ task generate {
     def xml = new MarkupBuilder(writer)
             .configuration('xmlns': 'http://www.jooq.org/xsd/jooq-codegen-3.7.0.xsd') {
         jdbc() {
-            driver('com.mysql.cj.jdbc.Driver')
+            driver(SQL_DRIVER)
             url('jdbc:mysql://127.0.0.1/project_plutos?serverTimezone=UTC')
             user('root')
             password('ykyusdeu')

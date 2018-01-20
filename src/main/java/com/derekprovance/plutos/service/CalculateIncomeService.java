@@ -4,11 +4,15 @@ import com.derekprovance.plutos.constants.FinanceTimePeriod;
 import com.derekprovance.plutos.data.models.Income;
 import com.derekprovance.plutos.data.models.User;
 import com.derekprovance.plutos.repository.IncomeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
 public class CalculateIncomeService extends AbstractFinanceService {
     private User user;
+
+    @Autowired
+    private IncomeRepository incomeRepository;
 
     public CalculateIncomeService(User usr) {
         user = usr;
@@ -19,7 +23,7 @@ public class CalculateIncomeService extends AbstractFinanceService {
     }
 
     public Long calculateIncome(FinanceTimePeriod timePeriod) {
-        final List<Income> incomes = IncomeRepository.getIncomesForUser(user.getId());
+        final List<Income> incomes = incomeRepository.getIncomesForUser(user.getId());
         return totalIncomes(incomes, timePeriod);
     }
 

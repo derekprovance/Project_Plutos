@@ -6,6 +6,7 @@ package com.derekprovance.plutos.data.db;
 
 import com.derekprovance.plutos.data.db.tables.Expenditures;
 import com.derekprovance.plutos.data.db.tables.Incomes;
+import com.derekprovance.plutos.data.db.tables.SchemaVersion;
 import com.derekprovance.plutos.data.db.tables.Users;
 
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ProjectPlutos extends SchemaImpl {
 
-	private static final long serialVersionUID = -2029035832;
+	private static final long serialVersionUID = 879849319;
 
 	/**
 	 * The reference instance of <code>project_plutos</code>
@@ -56,6 +57,7 @@ public class ProjectPlutos extends SchemaImpl {
 		return Arrays.<Table<?>>asList(
 			Expenditures.EXPENDITURES,
 			Incomes.INCOMES,
+			SchemaVersion.SCHEMA_VERSION,
 			Users.USERS);
 	}
 }

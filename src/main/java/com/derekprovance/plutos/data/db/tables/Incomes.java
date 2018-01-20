@@ -16,7 +16,6 @@ import java.util.List;
 import javax.annotation.Generated;
 
 import org.jooq.Field;
-import org.jooq.ForeignKey;
 import org.jooq.Identity;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -37,7 +36,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Incomes extends TableImpl<IncomesRecord> {
 
-	private static final long serialVersionUID = 786364613;
+	private static final long serialVersionUID = 1747141029;
 
 	/**
 	 * The reference instance of <code>project_plutos.incomes</code>
@@ -136,14 +135,6 @@ public class Incomes extends TableImpl<IncomesRecord> {
 	@Override
 	public List<UniqueKey<IncomesRecord>> getKeys() {
 		return Arrays.<UniqueKey<IncomesRecord>>asList(Keys.KEY_INCOMES_PRIMARY);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public List<ForeignKey<IncomesRecord, ?>> getReferences() {
-		return Arrays.<ForeignKey<IncomesRecord, ?>>asList(Keys.INCOMES_IBFK_1);
 	}
 
 	/**

@@ -4,8 +4,11 @@ package com.derekprovance.plutos.repository;
 import com.derekprovance.plutos.constants.FinanceTimePeriod;
 import com.derekprovance.plutos.data.db.tables.Incomes;
 import com.derekprovance.plutos.data.models.Income;
+import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.jooq.Result;
+import org.jooq.impl.DefaultDSLContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,8 +17,16 @@ import java.util.List;
 
 @Repository
 @Transactional
-public class IncomeRepository extends AbstactRepository {
-    public static List<Income> getIncomesForUser(Integer userId) {
+public class IncomeRepository {
+
+    private DefaultDSLContext dsl;
+
+    @Autowired
+    public IncomeRepository(DefaultDSLContext dsl) {
+        this.dsl = dsl;
+    }
+
+    public List<Income> getIncomesForUser(Integer userId) {
         List<Income> incomes = new ArrayList<>();
         Result<Record> results = dsl.select().from(Incomes.INCOMES).where(Incomes.INCOMES.USER_ID.eq(userId)).fetch();
         for (Record r : results) {
@@ -25,7 +36,7 @@ public class IncomeRepository extends AbstactRepository {
     }
 
     //TODO - remove the need for this
-    private static Income getIncomeEntity(Record r) {
+    private Income getIncomeEntity(Record r) {
         Income income = new Income();
         income.setId(r.getValue(Incomes.INCOMES.ID, Integer.class));
         income.setExpires(r.getValue(Incomes.INCOMES.EXPIRED_ON, Long.class));

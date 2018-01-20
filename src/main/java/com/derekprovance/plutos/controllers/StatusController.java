@@ -1,4 +1,4 @@
-package com.derekprovance.plutos.rest;
+package com.derekprovance.plutos.controllers;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

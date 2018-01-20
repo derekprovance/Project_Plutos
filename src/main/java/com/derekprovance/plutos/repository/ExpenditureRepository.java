@@ -4,8 +4,11 @@ import com.derekprovance.plutos.constants.ExpenseType;
 import com.derekprovance.plutos.constants.FinanceTimePeriod;
 import com.derekprovance.plutos.data.db.tables.Expenditures;
 import com.derekprovance.plutos.data.models.Expenditure;
+import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.jooq.SelectConditionStep;
+import org.jooq.impl.DefaultDSLContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,15 +17,23 @@ import java.util.List;
 
 @Repository
 @Transactional
-public class ExpenditureRepository extends AbstactRepository {
-    public static List<Expenditure> getAllExpenditures(Integer userId) {
+public class ExpenditureRepository {
+
+    private DefaultDSLContext dsl;
+
+    @Autowired
+    public ExpenditureRepository(DefaultDSLContext dsl) {
+        this.dsl = dsl;
+    }
+
+    public List<Expenditure> getAllExpenditures(Integer userId) {
         final SelectConditionStep<Record> query = dsl.select().from(Expenditures.EXPENDITURES)
                 .where(Expenditures.EXPENDITURES.USER_ID.eq(userId));
 
         return processQuery(query);
     }
 
-    public static List<Expenditure> getExpendituresByCategory(Integer userId, ExpenseType expenseType) {
+    public List<Expenditure> getExpendituresByCategory(Integer userId, ExpenseType expenseType) {
         final SelectConditionStep<Record> query = dsl.select().from(Expenditures.EXPENDITURES)
                 .where(Expenditures.EXPENDITURES.USER_ID.eq(userId))
                 .and(Expenditures.EXPENDITURES.TYPE.eq(String.valueOf(expenseType)));
@@ -30,7 +41,7 @@ public class ExpenditureRepository extends AbstactRepository {
         return processQuery(query);
     }
 
-    private static List<Expenditure> processQuery(SelectConditionStep<Record> query) {
+    private List<Expenditure> processQuery(SelectConditionStep<Record> query) {
         List<Expenditure> expenditures = new ArrayList<>();
 
         for (Record r : query.fetch()) {
@@ -41,7 +52,7 @@ public class ExpenditureRepository extends AbstactRepository {
     }
 
     //TODO - remove the need for this
-    private static Expenditure getIncomeEntity(Record r) {
+    private Expenditure getIncomeEntity(Record r) {
         Expenditure expenditure = new Expenditure();
         expenditure.setId(r.getValue(Expenditures.EXPENDITURES.ID, Integer.class));
         expenditure.setCycleAmt(r.getValue(Expenditures.EXPENDITURES.CYCLE_AMT, Integer.class));
