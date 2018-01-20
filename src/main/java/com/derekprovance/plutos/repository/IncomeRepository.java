@@ -19,12 +19,8 @@ import java.util.List;
 @Transactional
 public class IncomeRepository {
 
-    private DefaultDSLContext dsl;
-
     @Autowired
-    public IncomeRepository(DefaultDSLContext dsl) {
-        this.dsl = dsl;
-    }
+    private DefaultDSLContext dsl;
 
     public List<Income> getIncomesForUser(Integer userId) {
         List<Income> incomes = new ArrayList<>();

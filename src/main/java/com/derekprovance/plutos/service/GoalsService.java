@@ -1,24 +1,20 @@
 package com.derekprovance.plutos.service;
 
 import com.derekprovance.plutos.constants.ExpenseType;
+import com.derekprovance.plutos.data.UserSingleton;
 import com.derekprovance.plutos.data.models.User;
 import com.derekprovance.plutos.util.Formatters;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class GoalsService {
-    private User user;
 
+    @Autowired
     private CalculateIncomeService incomeService;
+
+    @Autowired
     private CalculateExpenseService expenseService;
-
-    public GoalsService(User user) {
-        this.user = user;
-        initializeServices();
-    }
-
-    private void initializeServices() {
-        this.incomeService = new CalculateIncomeService(user);
-        this.expenseService = new CalculateExpenseService(user);
-    }
 
     public String getRentFormatted() {
         return Formatters.convertToStringCurrency(getHousingExpense());
@@ -33,7 +29,7 @@ public class GoalsService {
     }
 
     public String getPocketChangeFormatted() {
-        return Formatters.convertToStringCurrency(user.getPocketChange());
+        return Formatters.convertToStringCurrency(UserSingleton.getInstance().getUser().getPocketChange());
     }
 
     public String getLoanExpenseFormatted() {
@@ -57,6 +53,6 @@ public class GoalsService {
     }
 
     private Long getRemainingIncome() {
-        return incomeService.calculateIncome() - getAllExpenses() - user.getPocketChange();
+        return incomeService.calculateIncome() - getAllExpenses() - UserSingleton.getInstance().getUser().getPocketChange();
     }
 }

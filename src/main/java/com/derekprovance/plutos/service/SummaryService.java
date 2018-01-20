@@ -3,11 +3,13 @@ package com.derekprovance.plutos.service;
 import com.derekprovance.plutos.constants.FinanceTimePeriod;
 import com.derekprovance.plutos.data.UserSingleton;
 import com.derekprovance.plutos.util.Formatters;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
+@Service
 public class SummaryService extends AbstractFinanceService {
     public Map<String, String> prepareDaySpendPayload() {
         Map<String, String> payloadDay = new HashMap<>();

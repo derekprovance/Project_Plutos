@@ -2,29 +2,27 @@ package com.derekprovance.plutos.service;
 
 import com.derekprovance.plutos.constants.ExpenseType;
 import com.derekprovance.plutos.constants.FinanceTimePeriod;
+import com.derekprovance.plutos.data.UserSingleton;
 import com.derekprovance.plutos.data.models.Expenditure;
 import com.derekprovance.plutos.data.models.User;
 import com.derekprovance.plutos.repository.ExpenditureRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class CalculateExpenseService extends AbstractFinanceService {
-    private User user;
 
     @Autowired
     private ExpenditureRepository expenditureRepository;
-
-    public CalculateExpenseService(User user) {
-        this.user = user;
-    }
 
     public Long calculateExpenses() {
         return calculateExpenses(FinanceTimePeriod.BI_WEEKLY);
     }
 
     public Long calculateExpenses(FinanceTimePeriod timePeriod) {
-        final List<Expenditure> expenditures = expenditureRepository.getAllExpenditures(user.getId());
+        final List<Expenditure> expenditures = expenditureRepository.getAllExpenditures(UserSingleton.getInstance().getUser().getId());
         return totalExpenditures(expenditures, timePeriod);
     }
 
@@ -33,7 +31,7 @@ public class CalculateExpenseService extends AbstractFinanceService {
     }
 
     public Long calculateExpenseByCategory(ExpenseType expenseType, FinanceTimePeriod timePeriod) {
-        final List<Expenditure> expenditures = expenditureRepository.getExpendituresByCategory(user.getId(), expenseType);
+        final List<Expenditure> expenditures = expenditureRepository.getExpendituresByCategory(UserSingleton.getInstance().getUser().getId(), expenseType);
         return totalExpenditures(expenditures, timePeriod);
     }
 

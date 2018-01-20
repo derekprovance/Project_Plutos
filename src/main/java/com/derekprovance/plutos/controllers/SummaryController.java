@@ -6,6 +6,7 @@ import com.derekprovance.plutos.service.CalculateExpenseService;
 import com.derekprovance.plutos.service.CalculateIncomeService;
 import com.derekprovance.plutos.service.SummaryService;
 import com.derekprovance.plutos.util.Formatters;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,12 +17,15 @@ import java.util.Map;
 @RestController
 public class SummaryController {
 
+    @Autowired
+    private CalculateIncomeService incomeService;
+
+    @Autowired
+    private CalculateExpenseService expenseService;
+
     //TODO - Too much logic in this controller. It brings shame on you sir
     @RequestMapping("/summary")
     public Map<String, String> generateSummary(@RequestParam(value="payPeriod", defaultValue="BI_WEEKLY") FinanceTimePeriod payPeriod) {
-        CalculateIncomeService incomeService = new CalculateIncomeService(UserSingleton.getInstance().getUser());
-        CalculateExpenseService expenseService = new CalculateExpenseService(UserSingleton.getInstance().getUser());
-
         Long totalIncome = incomeService.calculateIncome(payPeriod);
         Long totalExpense = expenseService.calculateExpenses(payPeriod);
 
